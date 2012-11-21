@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ca.ilanguage.oprime"
+    android:installLocation="preferExternal"
     android:versionCode="1"
     android:versionName="1.0" >
 
@@ -8,20 +9,36 @@
         android:minSdkVersion="8"
         android:targetSdkVersion="15" />
 
+    <supports-screens
+        android:anyDensity="true"
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:smallScreens="true" />
+
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.RECORD_VIDEO" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.BROADCAST_STICKY" />
+    <!--
+    <uses-permission android:name="ca.ilanguage.oprime.permission.START_AUDIO_RECORDING_SERVICE" />
+    <uses-permission android:name="ca.ilanguage.oprime.permission.SAVE_SUB_EXPERIMENT_JSON" />
+    -->
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
 
     <application
+        android:name="ca.ilanguage.oprime.content.OPrimeApp"
         android:icon="@drawable/ic_oprime"
         android:label="@string/app_name" >
 
         <!--
-             The activity tag here is currently not used. The main project TicTacToeMain
+             The activity tag here is currently not used. The main project 
              must currently redefine the activities to be used from the libraries.
              However later the tools will pick up the activities from here and merge them
              automatically, so it's best to define your activities here like for any
@@ -32,7 +49,17 @@
             android:label="@string/app_name" >
         </activity>
         <activity
+            android:name="ca.ilanguage.oprime.activity.ParticipantDetails"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name="ca.ilanguage.oprime.activity.SubExperiment"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="false"
             android:label="@string/app_name" >
             <intent-filter>
@@ -43,6 +70,7 @@
         </activity>
         <activity
             android:name="ca.ilanguage.oprime.activity.TwoImageSubExperiment"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="false"
             android:label="@string/app_name" >
             <intent-filter>
@@ -53,6 +81,7 @@
         </activity>
         <activity
             android:name="ca.ilanguage.oprime.activity.StopWatchSubExperiment"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="false"
             android:label="@string/app_name" >
             <intent-filter>
@@ -73,6 +102,7 @@
         </activity>
         <activity
             android:name=".storybook.StoryBookSubExperiment"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="false"
             android:label="@string/app_name" >
             <intent-filter>
@@ -86,19 +116,22 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="false"
             android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activity.HTML5GameActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:exported="false"
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="ca.ilanguage.oprime.intent.action.START_HTML5_SUB_EXPERIMENT" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <!--
         <activity
             android:name="ca.ilanguage.oprime.datacollection.VideoRecorder"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="false"
             android:label="@string/app_name" >
             <intent-filter>
@@ -107,19 +140,20 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        -->
 
-        <service
-            android:name="ca.ilanguage.oprime.datacollection.SubExperimentToJson"
-            android:exported="false" >
+
+        <!-- All services must be listed in the manifest before they can be used -->
+        <!-- android:permission="ca.ilanguage.oprime.permission.SAVE_SUB_EXPERIMENT_JSON" -->
+        <service android:name="ca.ilanguage.oprime.datacollection.SubExperimentToJson" >
             <intent-filter>
                 <action android:name="ca.ilanguage.oprime.intent.action.SAVE_SUB_EXPERIMENT_JSON" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </service>
-        <service
-            android:name="ca.ilanguage.oprime.datacollection.AudioRecorder"
-            android:exported="false" >
+        <!-- android:permission="ca.ilanguage.oprime.permission.START_AUDIO_RECORDING_SERVICE" -->
+        <service android:name="ca.ilanguage.oprime.datacollection.AudioRecorder" >
             <intent-filter>
                 <action android:name="ca.ilanguage.oprime.intent.action.START_AUDIO_RECORDING_SERVICE" />
 

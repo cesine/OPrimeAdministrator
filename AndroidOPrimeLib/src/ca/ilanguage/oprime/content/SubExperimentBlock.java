@@ -6,118 +6,151 @@ import java.util.ArrayList;
 import com.google.gson.Gson;
 
 public class SubExperimentBlock implements Serializable {
-	private static final long serialVersionUID = -3637915995040502723L;
-	String title = OPrime.EMPTYSTRING;
-	String language =  OPrime.DEFAULT_LANGUAGE;
-	String description = OPrime.EMPTYSTRING;
-	ArrayList<? extends Stimulus> stimuli;
-	String resultsFileWithoutSuffix = OPrime.EMPTYSTRING;
-	long startTime = 0;
-	int displayedStimuli = 0;
+  private static final long serialVersionUID = -3637915995040502723L;
+  String title = OPrime.EMPTYSTRING;
+  String language = OPrime.DEFAULT_LANGUAGE;
+  String description = OPrime.EMPTYSTRING;
+  ArrayList<? extends Stimulus> stimuli;
+  String resultsFileWithoutSuffix = OPrime.EMPTYSTRING;
+  long startTime = 0;
+  int displayedStimuli = 0;
+  protected String intentToCallThisSubExperiment = OPrime.INTENT_START_SUB_EXPERIMENT;
+  protected String intentToCallAfterThisSubExperiment = "";
 
-	public SubExperimentBlock() {
-		super();
-		this.title = OPrime.EMPTYSTRING;
-		this.language = OPrime.DEFAULT_LANGUAGE;
-		this.description = OPrime.EMPTYSTRING;
-		this.startTime = System.currentTimeMillis();
-		// this.stimuli = new ArrayList<Stimulus>();
+  public SubExperimentBlock() {
+    super();
+    this.title = OPrime.EMPTYSTRING;
+    this.language = OPrime.DEFAULT_LANGUAGE;
+    this.description = OPrime.EMPTYSTRING;
+    this.startTime = System.currentTimeMillis();
+    // this.stimuli = new ArrayList<Stimulus>();
 
-	}
+  }
 
-	public SubExperimentBlock(String title) {
-		super();
-		this.title = title;
-		this.language = OPrime.DEFAULT_LANGUAGE;
-		this.description = OPrime.EMPTYSTRING;
-		this.startTime = System.currentTimeMillis();
-		// this.stimuli = new ArrayList<Stimulus>();
+  public SubExperimentBlock(String title) {
+    super();
+    this.title = title;
+    this.language = OPrime.DEFAULT_LANGUAGE;
+    this.description = OPrime.EMPTYSTRING;
+    this.startTime = System.currentTimeMillis();
+    // this.stimuli = new ArrayList<Stimulus>();
 
-	}
+  }
 
-	public SubExperimentBlock(String title, String language,
-			String description, ArrayList<? extends Stimulus> stimuli,
-			String resultsFile) {
-		super();
-		this.title = title;
-		this.language = language;
-		this.description = description;
-		this.resultsFileWithoutSuffix = resultsFile;
-		this.stimuli = stimuli;
-		this.startTime = System.currentTimeMillis();
-	}
+  public SubExperimentBlock(String title, String language, String description,
+      ArrayList<? extends Stimulus> stimuli, String resultsFile) {
+    super();
+    this.title = title;
+    this.language = language;
+    this.description = description;
+    this.resultsFileWithoutSuffix = resultsFile;
+    this.stimuli = stimuli;
+    this.startTime = System.currentTimeMillis();
+  }
 
-	public boolean isExperimentProbablyComplete() {
-		boolean complete = false;
-		if(this.stimuli != null ){
-			if(this.stimuli.size() > 0){
-				float completed = (this.displayedStimuli / this.stimuli.size() ) ;
-				complete =  completed > .8;
-			}
-		}
-		return complete;
-	}
+  public SubExperimentBlock(String title, String language, String description,
+      ArrayList<? extends Stimulus> stimuli, String resultsFile,
+      String intentToCall) {
+    super();
+    this.title = title;
+    this.language = language;
+    this.description = description;
+    this.resultsFileWithoutSuffix = resultsFile;
+    this.stimuli = stimuli;
+    this.startTime = System.currentTimeMillis();
+    this.intentToCallThisSubExperiment = intentToCall;
+  }
 
-	public String getResultsJson(){
-		Gson gson = new Gson();
-		String json = gson.toJson(this);
-		return json;
-	}
-	public String getTitle() {
-		return title;
-	}
+  public boolean isExperimentProbablyComplete() {
+    boolean complete = false;
+    if (this.stimuli != null) {
+      if (this.stimuli.size() > 0) {
+        float completed = (this.displayedStimuli / this.stimuli.size());
+        complete = completed > .8;
+      }
+    }
+    return complete;
+  }
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
+  public String getResultsJson() {
+    Gson gson = new Gson();
+    String json = gson.toJson(this);
+    return json;
+  }
 
-	public String getLanguage() {
-		return language;
-	}
+  public String getTitle() {
+    return title;
+  }
 
-	public void setLanguage(String language) {
-		this.language = language;
-	}
+  public void setTitle(String title) {
+    this.title = title;
+  }
 
-	public String getDescription() {
-		return description;
-	}
+  public String getLanguage() {
+    return language;
+  }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+  public void setLanguage(String language) {
+    this.language = language;
+  }
 
-	public ArrayList<? extends Stimulus> getStimuli() {
-		return stimuli;
-	}
+  public String getDescription() {
+    return description;
+  }
 
-	public void setStimuli(ArrayList<? extends Stimulus> stimuli) {
-		this.stimuli = null;
-		this.stimuli = stimuli;
-	}
+  public void setDescription(String description) {
+    this.description = description;
+  }
 
-	public String getResultsFileWithoutSuffix() {
-		return resultsFileWithoutSuffix;
-	}
+  public ArrayList<? extends Stimulus> getStimuli() {
+    return stimuli;
+  }
 
-	public void setResultsFileWithoutSuffix(String resultsFileWithoutSuffix) {
-		this.resultsFileWithoutSuffix = resultsFileWithoutSuffix;
-	}
+  public void setStimuli(ArrayList<? extends Stimulus> stimuli) {
+    this.stimuli = null;
+    this.stimuli = stimuli;
+  }
 
-	public long getStartTime() {
-		return startTime;
-	}
+  public String getResultsFileWithoutSuffix() {
+    return resultsFileWithoutSuffix;
+  }
 
-	public void setStartTime(long startTime) {
-		this.startTime = startTime;
-	}
+  public void setResultsFileWithoutSuffix(String resultsFileWithoutSuffix) {
+    this.resultsFileWithoutSuffix = resultsFileWithoutSuffix;
+  }
 
-	public int getDisplayedStimuli() {
-		return displayedStimuli;
-	}
+  public long getStartTime() {
+    return startTime;
+  }
 
-	public void setDisplayedStimuli(int displayedStimuli) {
-		this.displayedStimuli = displayedStimuli;
-	}
+  public void setStartTime(long startTime) {
+    this.startTime = startTime;
+  }
+
+  public int getDisplayedStimuli() {
+    return displayedStimuli;
+  }
+
+  public void setDisplayedStimuli(int displayedStimuli) {
+    this.displayedStimuli = displayedStimuli;
+  }
+
+  public String getIntentToCallThisSubExperiment() {
+    return intentToCallThisSubExperiment;
+  }
+
+  public void setIntentToCallThisSubExperiment(
+      String intentToCallThisSubExperiment) {
+    this.intentToCallThisSubExperiment = intentToCallThisSubExperiment;
+  }
+
+  public String getIntentToCallAfterThisSubExperiment() {
+    return intentToCallAfterThisSubExperiment;
+  }
+
+  public void setIntentToCallAfterThisSubExperiment(
+      String intentToCallAfterThisSubExperiment) {
+    this.intentToCallAfterThisSubExperiment = intentToCallAfterThisSubExperiment;
+  }
 
 }
